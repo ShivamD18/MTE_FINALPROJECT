@@ -1,0 +1,73 @@
+//Libraries
+#include <iostream>
+#include <vector>
+#include <string>
+
+//using
+using namespace std;
+using std::vector;
+
+//functions and structures
+
+//Block structure; will make each block have a corresponding colour and position number
+struct Block
+{
+   int numberblock;
+   string colour;
+};
+    //colour sorting function; will sort the red blocks to column one and the blue blocks to column 2
+    void coloursorter(const vector<Block>& blocks) {
+        //create 3 column vectors
+        vector<int> column1;
+        vector<int> column2;
+        vector<int> column3;
+
+        //for loop that pushes back each column vector depending on if input is blue, red, or other
+        for(const Block& block : blocks){
+            if(block.colour == "red"){
+                column1.push_back(block.numberblock);
+            } else if(block.colour == "blue"){
+                column2.push_back(block.numberblock);
+            } else {
+                column3.push_back(block.numberblock);
+            }
+        }
+
+        //prints sorted columns
+        cout << "column 1: ";
+        for(int blockNumber : column1){
+            cout << "Block " << blockNumber << " ";
+        }
+        cout << endl;
+
+        cout << "column 2: ";
+        for(int blockNumber : column2){
+            cout << "Block " << blockNumber << " ";
+        }
+        cout << endl;
+        
+        cout << "column 3: ";
+        for (int blockNumber : column3){
+            cout << "Block " << blockNumber << " ";
+        }
+        cout << endl;
+
+    }
+
+int main(){
+
+    cout << "Enter the postions of the colours, and empty spaces, numbered 1-9. " << endl;
+
+
+    vector<Block> blocks(9);
+    for(int i = 0; i<9; i++){
+        blocks[i].numberblock = i + 1;
+        cout << "Block number " << blocks[i].numberblock << ": ";
+        cin >> blocks[i].colour;
+    }
+
+    coloursorter(blocks);
+
+
+    return 0;
+}
