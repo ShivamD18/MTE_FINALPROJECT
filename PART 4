@@ -1,0 +1,39 @@
+//PART 4 (FILL EMPTY ROW WITH MATCHING TWO BLOCKS)
+//-----------------------------------------------------------------
+
+//finds column to put duplicate blocks into
+
+int find_matching_blocks_new_column(int matrix[3][3], int colour){
+
+     /*Ok, this one's a bit complicated but basically, the first duplicate blocks column will be empty, as it just got
+    moved, along with any block underneath, regardless of colour. we want to move the stacked blocks over here, so that's what this is doing.*/
+
+    int col_for_stacked_blocks = find_first_row2(matrix, colour);
+    return col_for_stacked_blocks;
+}
+
+int find_stacked_matching_blocks_col(int matrix[3][3]){
+    //Stacked blocks are in the 2nd most empty column, as they just got stacked there
+    int stacked_blocks_col = find_secound_most_empty_column(matrix);
+
+    int col_to_move_dup_blocks_to = 
+
+    /* Got stuck here. Basically I was trying to assign the value of where the first duplicates column is to be the column to move the
+    duplicate blocks, was tryna figure it out for too long so I gave up. I also tried making find_most_empty dynamic, I couldn't make that work either.*/
+   
+
+    //The two stacked blocks will always be in row 1 and 2, or row 0 and row 1, so we only have to assign them to the new column, and at the bottom.
+    int dup_block_1 = matrix[0][find_secound_most_empty_column(matrix)];
+    int dup_block_2 = matrix[1][find_secound_most_empty_column(matrix)];
+
+    //great, now we have the locations of both dup blocks, so we're now going to move them.
+
+    matrix[0][find_secound_most_empty_column(matrix)] = 0;  //making both dup blocks previous location blank
+    matrix[1][find_secound_most_empty_column(matrix)] = 0;
+
+    //moving the 2 blocks to the (now empty) column
+
+    place_in_lowest_empty(matrix, dup_block_1, col_to_move_dup_blocks_to);
+    place_in_lowest_empty(matrix, dup_block_2, col_to_move_dup_blocks_to);
+    
+}
