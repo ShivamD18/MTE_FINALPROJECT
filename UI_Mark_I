@@ -1,0 +1,102 @@
+#include <iostream>
+#include <string>
+#include <vector>
+
+using namespace std;
+
+// = {'  ', '  ', '  ', '  ', '  ', '  ', '  ', '  ', '  '};
+
+/*
+Entries will be made in this order:
+1   2   3
+4   5   6
+7   8   9
+*/
+
+//List of functions
+
+void makeBoard(vector<string> spaces);   //just prints the current board
+
+void blockEntry(vector<string> spaces, string entry); //takes the entered block, and updates board
+
+int main(){
+
+    //initialize spaces to have nothing in them
+    vector<string> spaces(9);
+
+    //making string for the user to enter colours, red, or blue
+    string entry;
+
+    //Just a boolean value to continue taking entries until all values are filled
+    bool running = true;
+
+    //printing the board
+    makeBoard(spaces);
+
+    //while loop that runs until all values are filled
+    while(running){
+        
+        blockEntry(spaces, entry);
+        makeBoard(spaces);
+        
+    }
+    return 0;
+}
+
+
+void makeBoard(vector<string> spaces){
+    //Just prints the grid
+    cout << "-------------------" << endl;
+    cout << "|     |     |     |" << endl;
+    cout << "|  "<<spaces[0]<<"   |  "<<spaces[1]<<"   |   "<<spaces[2]<<"  |" << endl;
+    cout << "|     |     |     |" << endl;
+    cout << "-------------------" << endl;
+    cout << "|     |     |     |" << endl;
+    cout << "|  "<<spaces[3]<<"   |  "<<spaces[4]<<"   |   "<<spaces[5]<<"  |" << endl;
+    cout << "|     |     |     |" << endl;
+    cout << "-------------------" << endl;
+    cout << "|     |     |     |" << endl;
+    cout << "|  "<<spaces[6]<<"   |  "<<spaces[7]<<"   |   "<<spaces[8]<<"  |" << endl;
+    cout << "|     |     |     |" << endl;
+    cout << "-------------------" << endl;
+}
+
+
+void blockEntry(vector<string> spaces, string entry){
+
+//Loop iterates from top row to bottom row, column 1 to 3
+   for(int i = 0; i < 9; ++i){
+    string exitColour;
+ 
+       
+    cout << "Enter the colour that is present in that position: " << endl;
+    getline(cin, entry);
+
+    //if statements to assign value to entry
+    if(entry == "red" || entry == "Red"){
+        exitColour = "🔴"; 
+    } else if(entry == "blue" || entry == "Blue"){
+        exitColour = "🔵";
+    } else exitColour = "⚪";
+        
+    
+        str.erase()
+    spaces[i] = exitColour;
+    makeBoard(spaces);
+    }
+}
+
+
+//Adding:
+//fixing lines moving, and adding text or a symbol to symbolize "you are entering this block" OR making it so you can select the row/ column and colour
+//Undo step, (clear/restart step?), file output function, validation step to check it's filled
+//Actually implement into our code
+/*file output function will just print matrix, ex 
+int blocks[3][3] = {
+        {2, 1, 0},
+        {1, 2, 0},
+        {1, 2, 0}
+    };
+    */
+   //Less important ideas:
+   //change an individual block, highlighting it with something like *🔵*
