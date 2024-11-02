@@ -1,0 +1,593 @@
+#include <iostream>
+
+using namespace std;
+#include <string>
+#include <vector>
+#include <iomanip>
+#include <fstream>
+
+//iomanip is for setw
+
+/*
+Entries will be made in this order:
+1   2   3
+4   5   6
+7   8   9
+*/
+
+//List of functions
+
+void makeBoard(char *spaces);   //just prints the current board
+
+void blockEntry(char *spaces, vector<int>& trueSpaces); //takes the entered block, and updates board
+
+bool running(char *spaces);
+
+bool running(char *spaces){
+    //Boolean value that will keep iterating until board is full
+        for(int j = 0; j < 9; ++j){
+        if(spaces[j] == ' '){
+            return true;
+        }
+    }
+    cout << "Here is the final board" <<endl;
+    makeBoard(spaces);
+    return false;
+    }
+
+void makeBoard(char *spaces) {
+    // Just prints the grid with a set width to account for the color emojis
+    cout << "-------------------" << endl;
+    cout << "|     |     |     |" << endl;
+    cout << "|  "<< spaces[0] << "  |  " <<spaces[1]<< "  |  "<<spaces[2]<<"  |"<< endl;
+    cout << "|     |     |     |" << endl;
+    cout << "-------------------" << endl;
+    cout << "|     |     |     |" << endl;
+    cout << "|  " <<spaces[3]<< "  |  " <<spaces[4]<< "  |  "<<spaces[5]<<"  |"<< endl;
+    cout << "|     |     |     |" << endl;
+    cout << "-------------------" << endl;
+    cout << "|     |     |     |" << endl;
+    cout << "|  " <<spaces[6]<< "  |  " <<spaces[7]<< "  |  "<<spaces[8]<<"  |"<< endl;
+    cout << "|     |     |     |" << endl;
+    cout << "-------------------" << endl;
+}
+
+
+void blockEntry(char *spaces, vector<int>& trueSpaces){
+
+//Loop iterates from top row to bottom row, column 1 to 3
+    string entry;
+  ofstream blockfile("blockdata.txt");
+    if(blockfile.is_open()){
+   for(int i = 0; i < 9; ++i){
+
+            spaces[i] = '*';
+            makeBoard(spaces);
+       
+    cout << "Enter the colour that is present in this position: " << endl;
+    getline(cin, entry);
+
+    //if statements to assign value to entry
+    if(entry == "red" || entry == "Red" || entry == "RED"){
+        spaces[i] = 'R';      
+       trueSpaces[i] = 1;    
+    } else if(entry == "blue" || entry == "Blue" || entry == "BLUE"){
+        spaces[i] = 'B';
+        trueSpaces[i] = 2;
+    } else {spaces[i] = 'C';
+         trueSpaces[i] = 0;}
+        
+
+    blockfile << trueSpaces[i] << endl;
+    makeBoard(spaces);
+    }
+    
+    }
+    else cout <<" File couldn't open";
+  blockfile.close();
+}
+
+//GENERAL FUNCTIONS
+
+// prints blocks in terminal
+void print_blocks(int matrix[3][3]) {
+    for (int i = 0; i < 3; ++i) {
+        for (int j = 0; j < 3; ++j) {
+            if (matrix[i][j] == 1) {
+                cout << "🔴 ";  // Red block
+            } else if (matrix[i][j] == 2) {
+                cout << "🔵 ";  // Blue block
+            } else {
+                cout << "⚪ ";  // Empty space
+            }
+        }
+        cout << '\n';
+    }
+}
+
+// checks if a column is full of same coloured blocks
+bool same_colour_column(int matrix[3][3], int col){
+    
+    int color = matrix[0][col];
+
+    // If the color is 0, it means the column is empty in the top row
+    if (color == 0) {
+        return false;
+    }
+
+    // Check all rows in the specified column
+    for (int row = 0; row < 3; ++row) {
+        if (matrix[row][col] != color) {
+            return false;  // Found a different color or an empty block
+        }
+    }
+    return true;  // All blocks in the column are the same color
+}
+
+// checks for success
+int check_for_success(int matrix[3][3]){
+    bool column0 = same_colour_column(matrix, 0);
+    bool column1 = same_colour_column(matrix, 1);
+    bool column2 = same_colour_column(matrix, 2);
+    int count = 0;
+
+    if(column0 == true){
+        count++;
+    }
+
+    if(column1 == true){
+        count++;
+    }
+
+    if(column2 == true){
+    count++;
+    }
+
+    if(count > 1){
+        cout << "SUCCESSFUL!!!!!!" << '\n';
+        return 1;
+    }
+    return 0;
+}
+
+// counts how many blocks in each column
+int column_count(int matrix[3][3], int col){
+    int count = 0;
+
+    for (int i = 0; i < 3; ++i) {
+        if(matrix[i][col] != 0){
+            count ++;
+        }  
+    }  
+    return count;
+}
+
+// finds column with least blocks
+int find_most_empty_column(int matrix[3][3]){
+    int max_count = 4; // the most blocks in a column is 3, add 1 to get 4
+    int column_index = 0; // this is hold the column number with the least blocks
+
+    for (int col = 0; col < 3; ++col){ // runs thorugh 3 times = number of columns 
+        int count = column_count(matrix, col); // retuns how many blocks in each column
+
+        if(count < max_count){ // if the number of blocks is < 4 it becomes the "most empty column"
+            max_count = count;
+            column_index = col; 
+        }
+    }
+    return column_index;
+}
+
+// finds column with secound least blocks
+int find_secound_most_empty_column(int matrix[3][3]){
+    int secound_least_column = 0;
+
+    for (int col = 0; col < 3; ++col){
+        int count = column_count(matrix, col); 
+        
+        if(count == 2){ // we know it will always have 2 blocks in it 
+            secound_least_column = col;
+        }
+    }
+    return secound_least_column;
+} 
+
+// Places a block in the lowest empty spot in a column
+void place_in_lowest_empty(int matrix[3][3], int block, int col) {
+    // Place the block in the lowest empty space of the given column
+    for (int row = 2; row >= 0; --row) {  // Start from the bottom row
+        if (matrix[row][col] == 0) {  // Find the lowest empty space
+            matrix[row][col] = block;  // Move the block here
+            break;  // Exit once the block is placed
+        }
+    }
+}
+
+// PART 1 (CLEARING TOP ROW)
+//-----------------------------------------------------------------
+
+// counts how many blocks are in the top row
+int count_top_row_blocks(int matrix[3][3]) {
+    int count = 0;
+    for (int col = 0; col < 3; ++col) {
+        if (matrix[0][col] != 0) {  // If the element in the top row is not empty
+            count++;  // Increment the count
+        }
+    }
+    return count;  // Return how many blocks are in the top row
+}
+
+// finds left most block in the top row
+int find_top_left(int matrix[3][3]){
+for (int col = 0; col < 3; ++col) {
+        if (matrix[0][col] != 0) {  // Find the first non-zero block
+            return col;  // Return the column index of the leftmost block
+        }
+    }
+    return -1;  // Return -1 if no block is found
+}
+
+// moves left most block in the top row to most empty column 
+int move_top_left(int matrix[3][3]){
+    int colunm_with_top_left = find_top_left(matrix); // column with block in the top row, from left to right
+    int most_empty_column = find_most_empty_column(matrix); // finds most empty column
+
+    // pull location of top row block 
+    int block = matrix[0][colunm_with_top_left];
+    // set location == 0 
+    matrix[0][colunm_with_top_left] = 0;
+
+    place_in_lowest_empty(matrix, block, most_empty_column);
+}
+
+//PART 2 (CHEACKING ROW 2)
+//-----------------------------------------------------------------
+
+// checks row 2 (technical row 1) and counts how may blues and reds
+int check_row2(int matrix[3][3]){
+    int blue_count = 0;
+    int red_count = 0;
+
+    for(int col = 0 ; col < 3 ; col++){
+        if(matrix[1][col] == 1){
+            red_count++;
+        }else if(matrix[1][col] == 2){
+            blue_count++;
+        }
+    }
+
+    if (red_count > blue_count) {
+        return 1;
+    } else if (blue_count > red_count) {
+        return 2; 
+    } 
+}
+
+// finds first block left to right that is a duplicate colour in the row 
+int find_first_row2(int matrix[3][3], int colour){
+    for (int col = 0; col < 3; ++col) {
+            if (matrix[1][col] == colour) {  // Find the first non-zero block
+                return col;  // Return the column index of the leftmost block
+            }
+        }
+    }
+
+// finds secound block left to right that is a duplicate colour in the row 
+int find_secound_row2(int matrix[3][3], int colour){
+    int count = 0;
+    for (int col = 0; col < 3; ++col) {
+            if (matrix[1][col] == colour) {
+                count++;
+                if (count == 2){
+                    return col;
+                }
+            }
+        }
+    }
+
+// moves the first duplicate colour in the row, onto another same colour block in a differ column (there will always be somewhere to move)
+int move_first_row2(int matrix[3][3], int colour){
+    // finds the column of the first duplicate block in the 2nd row 
+    int first_duplicate_block_col = find_first_row2(matrix, colour);
+    // finds the column of the secound duplicate block in the 2nd row 
+    int secound_duplicate_block_col = find_secound_row2(matrix, colour);
+
+    // pull location of top row block 
+    int block = matrix[1][first_duplicate_block_col];
+    // set location == 0 
+    matrix[1][first_duplicate_block_col] = 0;
+
+    place_in_lowest_empty(matrix, block, secound_duplicate_block_col);
+}
+
+//PART 3 (EMPTY LEAST FULL COLUMN)
+//-----------------------------------------------------------------
+int move_empty_column(int matrix[3][3]){
+    int first_most_empty = find_most_empty_column(matrix);
+    int secound_most_empty = find_secound_most_empty_column(matrix);
+
+    // pull location of top row block 
+    int block = matrix[2][first_most_empty];
+    // set location == 0 
+    matrix[2][first_most_empty] = 0;
+
+    place_in_lowest_empty(matrix, block, secound_most_empty);
+}
+
+//PART 4 (FILL EMPTY ROW WITH MATCHING TWO BLOCKS)
+//-----------------------------------------------------------------
+
+int find_stacked_matching_blocks_col(int matrix[3][3], int col_first, int col_second){
+    //Stacked blocks are in the 2nd most empty column, as they just got stacked there
+
+    int col_to_move_dup_blocks_to = col_first;
+    int col_to_move_from = col_second;
+
+    /* Got stuck here. Basically I was trying to assign the value of where the first duplicates column is to be the column to move the
+    duplicate blocks, was tryna figure it out for too long so I gave up. I also tried making find_most_empty dynamic, I couldn't make that work either.*/
+   
+    //The two stacked blocks will always be in row 1 and 2, or row 0 and row 1, so we only have to assign them to the new column, and at the bottom.
+    int dup_block_1 = matrix[0][col_to_move_from];
+    int dup_block_2 = matrix[1][col_to_move_from];
+
+    //great, now we have the locations of both dup blocks, so we're now going to move them.
+
+    matrix[0][col_to_move_from] = 0;  //making both dup blocks previous location blank
+    place_in_lowest_empty(matrix, dup_block_1, col_to_move_dup_blocks_to);
+
+    print_blocks(matrix);
+    cout << "-------------------------\n";
+
+
+    matrix[1][col_to_move_from] = 0;
+    place_in_lowest_empty(matrix, dup_block_2, col_to_move_dup_blocks_to);
+    
+}
+
+
+//THE COLUMN WITH THE STACKED BLOCKS WILL HAVE A VALUE. THE 2 STACKED BLOCKS WILL ALWAYS BE IN RO[0] AND ROW[1], MOVE DUPLICATE BLOCK 2 TO EMPTY COL ROW 2, AND DUPLICATE BLOCK 1 TO EMPTY COL ROW 1
+//PART 5 ()
+//2 CONDITIONS, LAST DUPLICATE IS ON TOP, OR HIDDEN. IF ON TOP, MOVE TO MOST EMPTY (LAST DUPLICATE IS ALWAYS IN MOST POPULAR COLUMN MAKE FUNCTION THAT CHECKS IF BLOCK ABOVE LAST DUPLICATE. IF SO, MOVE TO LEAST POPULAR COLUMN, BY USING SWITCH CASE WITH 3 CASES). IF HIDDEN, 2 CASES, BUT ALWAYS IN COLUMN WITH 3 BLOCKS. MAKE IF STATEMENT THAT SAYS IF NO ON TOP, MOVE TOP BLOCK TO LEAST POPULAR
+
+// finds column with MOST blocks
+int find_most_full_column(int matrix[3][3]){
+    int max_count = 0; // the most blocks in a column is 3, add 1 to get 4
+    int column_index = 0; // this is hold the column number with the least blocks
+    for (int col = 0; col < 3; ++col){ // runs thorugh 3 times = number of columns 
+        int count = column_count(matrix, col); // retuns how many blocks in each column
+        if(count > max_count){ // if the number of blocks is < 4 it becomes the "most empty column"
+            max_count = count;
+            column_index = col; 
+        }
+    }
+    return column_index;
+}
+
+int find_last_dupe(int matrix[3][3], int colour){
+    int bigcolumn = find_most_full_column(matrix);
+    int row_index = 0;
+        for(int i = 0; i < 3; ++i){
+            if(matrix[i][bigcolumn] == colour){
+               row_index = i;
+               return row_index;
+            } 
+             
+        }
+}
+
+int blocks_above_dupe(int matrix[3][3], int col_first, int col_second, int row_value){
+    int pos_block_row = row_value;
+    int currentcolumn = find_most_full_column(matrix);
+
+    //making 3 blocks, 1 good one (the last block to put on top of the duplicates) and the 2 bad ones.
+    int goodblock;
+    int badblock1;
+    int badblock2;
+    
+    //originally had a switch case here, but it didn't work after case 0.
+    if(pos_block_row == 0){
+
+        //case 0 occurs when 0 blocks above good block (good block is on top)
+        goodblock = matrix[0][currentcolumn];
+        
+        int col_to_move_to = col_first;
+
+        matrix[0][currentcolumn] = 0;
+        place_in_lowest_empty(matrix, goodblock, col_to_move_to);
+    
+    } else if(pos_block_row == 1){ //1 bad block above good block
+        //moving bad block to bad column (lol?)
+        badblock1 = matrix[0][currentcolumn];
+
+        int col_to_move_badblock1_to = col_second;
+
+        matrix[0][currentcolumn] = 0;
+        place_in_lowest_empty(matrix, badblock1, col_to_move_badblock1_to);
+
+        print_blocks(matrix);
+    cout << "-------------------------\n";
+
+        //moving goodblock to goodcolumn
+
+        goodblock = matrix[1][currentcolumn];
+
+        int col_to_move_to = col_first;
+
+        matrix[1][currentcolumn] = 0;
+        place_in_lowest_empty(matrix, goodblock, col_to_move_to);
+    } else if(pos_block_row == 2){
+        //moving bad block1 to bad column (lol?)
+        badblock1 = matrix[0][currentcolumn];
+
+        int col_to_move_badblock1_to = col_second;
+
+        matrix[0][currentcolumn] = 0;
+        place_in_lowest_empty(matrix, badblock1, col_to_move_badblock1_to);
+
+        print_blocks(matrix);
+    cout << "-------------------------\n";
+
+    //moving bad block2 to bad column (lol?)
+        badblock2 = matrix[1][currentcolumn];
+
+        int col_to_move_badblock2_to = col_second;
+
+        matrix[1][currentcolumn] = 0;
+        place_in_lowest_empty(matrix, badblock2, col_to_move_badblock1_to);
+
+        print_blocks(matrix);
+    cout << "-------------------------\n";
+
+    //finally, moving goodblock to goodcolumn
+    goodblock = matrix[2][currentcolumn];
+        
+        int col_to_move_to = col_first;
+
+        matrix[2][currentcolumn] = 0;
+        place_in_lowest_empty(matrix, goodblock, col_to_move_to);
+    }
+}
+
+//PART 6()
+//CHECK LEAST POPULAR COLUMN, MOVE IT TO 2ND LEAST POPULAR
+
+int find_last_block(int matrix[3][3]){
+    //So all that's left is to move 1 remaining block (most empty column) to his brothers (second most empty column)
+    int col_to_move_last_block_from = find_most_empty_column(matrix);
+    int col_to_move_last_block_to = find_secound_most_empty_column(matrix);
+
+    //last block will always be in bottom row
+    int last_block = matrix[2][col_to_move_last_block_from];
+    matrix[2][col_to_move_last_block_from] = 0;
+
+    place_in_lowest_empty(matrix, last_block, col_to_move_last_block_to);
+    print_blocks(matrix);
+    cout << "-------------------------\n";
+
+}
+
+int main(){
+
+    //initialize spaces to have nothing in them
+    char spaces[9] = {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '};
+    vector<int> trueSpaces(9);
+
+    //making string for the user to enter colours, red, or blue
+    string entry;
+
+    //printing the board
+    makeBoard(spaces);
+
+    while(running(spaces)){
+        blockEntry(spaces, trueSpaces);
+        makeBoard(spaces);
+        }
+
+    // PRINT ORIGINAL SETUP
+    //--------------------------------------------------------------------
+
+    int blocks[3][3];
+    ifstream inputfile("blockdata.txt");
+    for(int i = 0; i < 3; ++i){
+        for (int j = 0; j < 3; ++j){
+        inputfile >> blocks[i][j];
+    }
+    }
+    inputfile.close();
+
+    int success = 0;
+
+    print_blocks(blocks);
+    cout << "-------------------------\n";
+    success = check_for_success(blocks);
+    if(success != 0){
+        return 0;
+    }
+
+    // PART 1 (CLEARING TOP ROW)
+    //-----------------------------------------------------------------
+    bool statement = true;
+    
+    while (statement) {
+        int num_blocks_top_row = count_top_row_blocks(blocks);  // Update the number of blocks in the top row
+
+        switch (num_blocks_top_row) {
+        case 0:
+            statement = false;  // No more blocks in the top row
+            break;
+        case 1:
+            move_top_left(blocks);
+            print_blocks(blocks);
+            cout << "-------------------------\n";
+            break;
+        case 2:
+            move_top_left(blocks);
+            print_blocks(blocks);
+            cout << "-------------------------\n";
+            break;
+        }
+    }
+    
+    
+    //PART 2 (CHEACKING ROW 2)
+    //-----------------------------------------------------------------
+    // checks row 2 (technical row 1) and counts how may blues and reds, and returns colour with most occurrences 
+    int dup_block_colour = check_row2(blocks);
+
+    //For Part 4 ********************
+    int new_empty_col = find_first_row2(blocks, dup_block_colour);
+    int stacked_col = find_secound_row2(blocks, dup_block_colour); 
+
+    // moves the first duplicate colour in the row, onto another same colour block in a differ column (there will always be somewhere to move)
+    move_first_row2(blocks, dup_block_colour);
+
+    print_blocks(blocks);
+    cout << "-------------------------\n";
+
+    //PART 3 (EMPTY LEAST FULL COLUMN)
+    //-----------------------------------------------------------------
+    move_empty_column(blocks);
+
+    print_blocks(blocks);
+    cout << "-------------------------\n";
+    success = check_for_success(blocks);
+    if(success != 0){
+        return 0;
+    }
+
+    //PART 4 (FILL EMPTY ROW WITH MATCHING TWO BLOCKS)
+    //-----------------------------------------------------------------
+    find_stacked_matching_blocks_col(blocks, new_empty_col, stacked_col);
+
+    print_blocks(blocks);
+    cout << "-------------------------\n";
+
+    //PART 5
+    //-----------------------------------------------------------------
+    
+    int row_value = find_last_dupe(blocks, dup_block_colour);
+    blocks_above_dupe(blocks, new_empty_col, stacked_col, row_value);
+
+    print_blocks(blocks);
+    cout << "-------------------------\n";
+    success = check_for_success(blocks);
+    if(success != 0){
+        return 0;
+    }
+
+//PART 6
+
+find_last_block(blocks);
+success = check_for_success(blocks);
+    if(success != 0){
+        return 0;
+    }
+
+
+success = check_for_success(blocks);
+    if(success != 0){
+        return 0;
+    }
+
+    return 0;
+}
