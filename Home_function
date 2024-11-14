@@ -1,0 +1,63 @@
+const int stepPin1 = 2;  // Step pin for Motor 1
+const int dirPin1 = 3;   // Direction pin for Motor 1
+const int stepPin2 = 6;  // Step pin for Motor 2
+const int dirPin2 = 7;   // Direction pin for Motor 2
+
+void setup() {
+  // Set all pins as Outputs
+  pinMode(stepPin1, OUTPUT);
+  pinMode(dirPin1, OUTPUT);
+  pinMode(stepPin2, OUTPUT);
+  pinMode(dirPin2, OUTPUT);
+
+  // Move to home position slowly at startup
+  goHome();
+}
+
+void loop() {
+  // Main code
+  delay(1000);  // Add a delay or other motor actions after homing
+}
+
+void goHome() {
+  // Set the direction towards home position for both motors
+  digitalWrite(dirPin1, LOW);  // Adjust direction if needed
+  digitalWrite(dirPin2, LOW);  // Adjust direction if needed
+
+  // Move both motors 200 steps to reach the home position
+  for (int x = 0; x < 850; x++) {
+     
+    // Step Motor 1
+    digitalWrite(stepPin1, HIGH);
+    delayMicroseconds(1000);  // Longer delay for slower speed
+    digitalWrite(stepPin1, LOW);
+    
+   
+    // Step Motor 2
+    digitalWrite(stepPin2, HIGH);
+    delayMicroseconds(1000);  // Longer delay for slower speed
+    digitalWrite(stepPin2, LOW);
+    
+    delayMicroseconds(1000);  // Small delay between each full step cycle
+  }
+
+  // Motors are now at the home position
+}
+
+void left(){
+  digitalWrite(dirPin2, LOW);  // Adjust direction if needed
+
+  // Move both motors 200 steps to reach the home position
+  for (int x = 0; x < 250; x++) {
+     
+    // Step Motor 2
+    digitalWrite(stepPin2, HIGH);
+    delayMicroseconds(1000);  // Longer delay for slower speed
+    digitalWrite(stepPin2, LOW);
+    
+    delayMicroseconds(1000);  // Small delay between each full step cycle
+  }
+
+  // Motors are now at the home position
+
+}
