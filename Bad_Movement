@@ -1,0 +1,29 @@
+const int stepPin1 = 6;
+const int dirPin1 = 7;
+
+
+void setup() {
+  // put your setup code here, to run once:
+pinMode(stepPin1, OUTPUT);
+pinMode(dirPin1, OUTPUT);
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+digitalWrite(dirPin1, HIGH);
+for(int x = 0; x < 100; x++){
+  digitalWrite(stepPin1, HIGH);
+  delayMicroseconds(500);
+  digitalWrite(stepPin1,LOW);
+  delayMicroseconds(500);
+}
+delay(1000);
+digitalWrite(dirPin1, LOW);
+for(int x = 0; x < 100; x++){
+digitalWrite(stepPin1, HIGH);
+delayMicroseconds(500);
+digitalWrite(stepPin1,LOW);
+delayMicroseconds(500);
+}
+delay(1000);
+}
