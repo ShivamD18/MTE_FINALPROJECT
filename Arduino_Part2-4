@@ -1,0 +1,89 @@
+//STEP 2:
+
+//
+int dup_block_1_col = find_first_row2(blocks, colour);
+  int dup_block_colour = check_row2(blocks);
+if(dup_block_colour == 1){ //block is red
+  if(dup_block_1_col == 0){
+    //block is at (1,0)
+    hometo_10();
+  }
+  else if(dup_block_1_col = 1){
+    //block is at (1,1)
+    hometo_11();
+  }
+}
+else if(dupe_block_colour == 2){ //block is blue
+  if(dup_block_1_col == 0){
+    //block is at (1,0)
+    hometo_10();
+  }
+  else if(dup_block_1_col = 1){
+    //block is at (1,1)
+    hometo_11();
+  }
+}
+//now we have the dup block 1 at home, have to place on top of dup_block_2
+  int stacked_col = find_secound_row2(blocks, dup_block_colour);
+  if(stacked_col = 1){
+    hometo_01();
+  }
+  else if(stacked_col = 2){
+    hometo_02();
+  }
+//
+//END OF STEP 2
+
+//STEP 3
+//
+  if(dup_block_1_col = 0){
+    hometo_20();
+  }  
+  else if(dup_block_1_col = 1){
+    hometo_21();
+  }
+
+  //have the first dupe block, now have to drop it
+  int secound_most_empty = find_secound_most_empty_column(matrix);
+  if(second_most_empty = 0){
+    hometo_00();
+  }
+  else if(second_most_empty = 1){
+      hometo_01();
+  }
+  else if(second_most_empty = 2){
+    hometo_02();
+  }
+}
+//NOW WE HAVE CLEAR COLUMN
+
+//STEP 4
+//
+/*
+We're going to take the two stacked dup blocks and put them into the now empty column
+The empty column is the one where dup block 1 moved from, so the two blocks are going back there, from the dupblock 2 column (I hope I show you guys what I mean there, cause I barely understand it myself lol)
+*/
+int secound_duplicate_block_col = find_secound_row2(matrix, colour);
+int first_duplicate_block_col = find_first_row2(matrix, colour);
+if(secound_duplicate_block_col = 1){
+  if(first_duplicate_block_col = 0){
+    hometo_01();
+    hometo_20();
+    hometo_11();
+    hometo_10();
+  }
+}
+else if(secound_duplicate_block_col = 2){
+  if(first_duplicate_block_col = 0){
+    hometo_02();
+    hometo_20();
+    hometo_12();
+    hometo_10();
+  } 
+  else if(first_duplicate_block_col = 1){
+    hometo_02();
+    hometo_21();
+    hometo_12();
+    hometo_11();
+  }
+}
