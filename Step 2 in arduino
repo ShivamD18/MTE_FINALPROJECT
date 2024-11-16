@@ -1,0 +1,9 @@
+//IRL SHIT
+int dup_block_1_col = find_first_row2(matrix, colour);
+  int dup_block_colour = check_row2(blocks);
+if(dup_block_colour == 1){
+  if(dup_block_1_col == 0){
+    //block is at (1,0)
+    hometo10();
+  }
+}
