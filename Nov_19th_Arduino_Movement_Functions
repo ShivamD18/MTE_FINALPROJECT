@@ -1,0 +1,495 @@
+
+void goHome() {
+  // Set the direction towards home position for both motors
+  digitalWrite(dirPin1, LOW);  // Adjust direction if needed
+  digitalWrite(dirPin2, LOW);  // Adjust direction if needed
+  myservo.write(100);
+
+  // Move both motors 1250 steps to reach the home position
+  for (int x = 0; x < 1250; x++) {
+    //begins 1.8cm from corner, finishes 16.5 cm 16.5-1.8 =~ 15cm
+     //Assume 1 step == 0.17cm
+     
+    // Step Motor 1
+    digitalWrite(stepPin1, HIGH);
+    delayMicroseconds(1000);  // Longer delay for slower speed
+    digitalWrite(stepPin1, LOW);
+    
+   
+    // Step Motor 2
+    digitalWrite(stepPin2, HIGH);
+    delayMicroseconds(1000);  // Longer delay for slower speed
+    digitalWrite(stepPin2, LOW);
+    
+    delayMicroseconds(1000);  // Small delay between each full step cycle
+  }
+
+delay(1000);
+  // Motors are now at the home position
+}
+
+void hometo_00(){
+   // 1 step = 0.18mm == 0.018cm
+  digitalWrite(dirPin1, HIGH);  // Adjust direction if needed
+  digitalWrite(dirPin2, HIGH); 
+  //function needs to move right 4cm, up 6cm
+
+  //This for loop moves it left ~4cm
+  for(int x = 0; x < 300; x++){
+    digitalWrite(stepPin1, HIGH);
+    delayMicroseconds(1000);  // Longer delay for slower speed
+    digitalWrite(stepPin1, LOW);
+    delayMicroseconds(1000);
+  }
+
+  //This for loop moves it down ~4cm
+  for(int x = 0; x < 300; x++){
+    digitalWrite(stepPin2, HIGH);
+    delayMicroseconds(1000);  // Longer delay for slower speed
+    digitalWrite(stepPin2, LOW);
+    delayMicroseconds(1000);
+  }
+
+//Grab functions
+  if(!grab){
+    clawopen();
+    grab = true;
+  }
+  else if(grab == true){
+    clawclose();
+    grab = false;
+  }
+  //Now we go back to home
+
+  delay(2000);
+  digitalWrite(dirPin1, LOW);  
+  digitalWrite(dirPin2, LOW); 
+
+  //up first
+  for(int x = 0; x < 300; x++){
+    digitalWrite(stepPin2, HIGH);
+    delayMicroseconds(1000);  // Longer delay for slower speed
+    digitalWrite(stepPin2, LOW);
+    delayMicroseconds(1000);
+  }
+  //This for loop moves it right 4cm
+  for(int x = 0; x < 300; x++){
+    digitalWrite(stepPin1, HIGH);
+    delayMicroseconds(1000);  // Longer delay for slower speed
+    digitalWrite(stepPin1, LOW);
+    delayMicroseconds(1000);
+  }
+delay(1000);
+  
+}
+
+void hometo_01(){
+  digitalWrite(dirPin1, HIGH);  // Adjust direction if needed
+  digitalWrite(dirPin2, HIGH); 
+
+  //This for loop moves it left 4cm
+  for(int x = 0; x < 300; x++){
+    digitalWrite(stepPin1, HIGH);
+    delayMicroseconds(1000);  // Longer delay for slower speed
+    digitalWrite(stepPin1, LOW);
+    delayMicroseconds(1000);
+  }
+
+  //This for loop moves it down 5.68cm
+  for(int x = 0; x < 275; x++){
+    digitalWrite(stepPin2, HIGH);
+    delayMicroseconds(1000);  // Longer delay for slower speed
+    digitalWrite(stepPin2, LOW);
+    delayMicroseconds(1000);
+  }
+//Grab functions
+if(!grab){
+    clawopen();
+    grab = true;
+  }
+  else if(grab == true){
+    clawclose();
+    grab = false;
+  }
+  //Now we go back to home
+
+  delay(2000);
+  digitalWrite(dirPin1, LOW);  
+  digitalWrite(dirPin2, LOW); 
+
+  ///This for loop moves it up ~5.68cm
+  for(int x = 0; x < 275; x++){
+    digitalWrite(stepPin2, HIGH);
+    delayMicroseconds(1000);  // Longer delay for slower speed
+    digitalWrite(stepPin2, LOW);
+    delayMicroseconds(1000);
+  }
+
+
+  //This for loop moves it right 4cm
+  for(int x = 0; x < 300; x++){
+    digitalWrite(stepPin1, HIGH);
+    delayMicroseconds(1000);  // Longer delay for slower speed
+    digitalWrite(stepPin1, LOW);
+    delayMicroseconds(1000);
+  }
+
+  
+delay(1000);
+}
+
+void hometo_02(){
+  
+  digitalWrite(dirPin1, HIGH);  // Adjust direction if needed
+  digitalWrite(dirPin2, HIGH); 
+
+  //This for loop moves it right 4cm
+  for(int x = 0; x < 300; x++){
+    digitalWrite(stepPin1, HIGH);
+    delayMicroseconds(1000);  // Longer delay for slower speed
+    digitalWrite(stepPin1, LOW);
+    delayMicroseconds(1000);
+  }
+
+  //This for loop moves it down 53.748mm
+  for(int x = 0; x < 250; x++){
+    digitalWrite(stepPin2, HIGH);
+    delayMicroseconds(1000);  // Longer delay for slower speed
+    digitalWrite(stepPin2, LOW);
+    delayMicroseconds(1000);
+  }
+
+  if(!grab){
+    clawopen();
+    grab = true;
+  }
+  else if(grab == true){
+    clawclose();
+    grab = false;
+  }
+
+  //Now we go back to home
+
+  delay(2000);
+  digitalWrite(dirPin1, LOW);  
+  digitalWrite(dirPin2, LOW); 
+
+  //This for loop moves it up ~5.38cm
+  for(int x = 0; x < 250; x++){
+    digitalWrite(stepPin2, HIGH);
+    delayMicroseconds(1000);  // Longer delay for slower speed
+    digitalWrite(stepPin2, LOW);
+    delayMicroseconds(1000);
+  }
+
+  //This for loop moves it right 4cm
+  for(int x = 0; x < 300; x++){
+    digitalWrite(stepPin1, HIGH);
+    delayMicroseconds(1000);  // Longer delay for slower speed
+    digitalWrite(stepPin1, LOW);
+    delayMicroseconds(1000);
+  }
+  delay(1000);
+}
+
+void hometo_10(){
+   // 1 step = 0.18mm == 0.018cm
+  digitalWrite(dirPin1, HIGH);  // Adjust direction if needed
+  digitalWrite(dirPin2, HIGH); 
+  //function needs to move right 4cm, up 6cm
+
+  //This for loop moves it down 6cm
+  for(int x = 0; x < 300; x++){
+    digitalWrite(stepPin2, HIGH);
+    delayMicroseconds(1000);  // Longer delay for slower speed
+    digitalWrite(stepPin2, LOW);
+    delayMicroseconds(1000);
+  }
+
+  if(!grab){
+    clawopen();
+    grab = true;
+  }
+  else if(grab == true){
+    clawclose();
+    grab = false;
+  }
+
+  //Now we go back to home
+
+  delay(2000);
+  digitalWrite(dirPin1, LOW);  
+  digitalWrite(dirPin2, LOW); 
+
+  //This for loop moves it down 6cm
+  for(int x = 0; x < 300; x++){
+    digitalWrite(stepPin2, HIGH);
+    delayMicroseconds(1000);  // Longer delay for slower speed
+    digitalWrite(stepPin2, LOW);
+    delayMicroseconds(1000);
+  }
+
+  
+  delay(1000);
+  
+}
+
+void hometo_11(){
+  // 1 step = 0.18mm == 0.018cm
+  digitalWrite(dirPin1, HIGH);  // Adjust direction if needed
+  digitalWrite(dirPin2, HIGH); 
+  //function needs to move right 4cm, up 6cm
+
+  //This for loop moves it down 6cm
+  for(int x = 0; x < 400; x++){
+    digitalWrite(stepPin2, HIGH);
+    delayMicroseconds(1000);  // Longer delay for slower speed
+    digitalWrite(stepPin2, LOW);
+    delayMicroseconds(1000);
+  }
+
+  if(!grab){
+    clawopen();
+    grab = true;
+  }
+  else if(grab == true){
+    clawclose();
+    grab = false;
+  }
+
+  //Now we go back to home
+
+  delay(2000);
+  digitalWrite(dirPin1, LOW);  
+  digitalWrite(dirPin2, LOW); 
+
+  //This for loop moves it down 6cm
+  for(int x = 0; x < 400; x++){
+    digitalWrite(stepPin2, HIGH);
+    delayMicroseconds(1000);  // Longer delay for slower speed
+    digitalWrite(stepPin2, LOW);
+    delayMicroseconds(1000);
+  }
+
+  
+  delay(1000);
+}
+
+void hometo_12(){
+  // 1 step = 0.18mm == 0.018cm
+  digitalWrite(dirPin1, LOW);  // Adjust direction if needed
+  digitalWrite(dirPin2, HIGH); 
+  //function needs to move right 4cm, up 6cm
+
+  //This for loop moves it down 6cm
+  for(int x = 0; x < 500; x++){
+    digitalWrite(stepPin2, HIGH);
+    delayMicroseconds(1000);  // Longer delay for slower speed
+    digitalWrite(stepPin2, LOW);
+    delayMicroseconds(1000);
+  }
+
+  if(!grab){
+    clawopen();
+    grab = true;
+  }
+  else if(grab == true){
+    clawclose();
+    grab = false;
+  }
+
+  //Now we go back to home
+
+  delay(2000);
+  digitalWrite(dirPin1, LOW);  
+  digitalWrite(dirPin2, LOW); 
+
+  //This for loop moves it down 6cm
+  for(int x = 0; x < 500; x++){
+    digitalWrite(stepPin2, HIGH);
+    delayMicroseconds(1000);  // Longer delay for slower speed
+    digitalWrite(stepPin2, LOW);
+    delayMicroseconds(1000);
+  }
+
+  
+  delay(1000);
+}
+
+void hometo_20(){
+  // 1 step = 0.18mm == 0.018cm
+  digitalWrite(dirPin1, LOW);  // Adjust direction if needed
+  digitalWrite(dirPin2, HIGH); 
+  //function needs to move right 4cm, up 6cm
+
+  //This for loop moves it right 4.55cm
+  for(int x = 0; x < 300; x++){
+    digitalWrite(stepPin1, HIGH);
+    delayMicroseconds(1000);  // Longer delay for slower speed
+    digitalWrite(stepPin1, LOW);
+    delayMicroseconds(1000);
+  }
+
+  //This for loop moves it down 5.68cm
+  for(int x = 0; x < 300; x++){
+    digitalWrite(stepPin2, HIGH);
+    delayMicroseconds(1000);  // Longer delay for slower speed
+    digitalWrite(stepPin2, LOW);
+    delayMicroseconds(1000);
+  }
+
+  if(!grab){
+    clawopen();
+    grab = true;
+  }
+  else if(grab == true){
+    clawclose();
+    grab = false;
+  }
+
+  //Now we go back to home
+  delay(2000);
+  digitalWrite(dirPin1, HIGH);  
+  digitalWrite(dirPin2, LOW); 
+
+  //This for loop moves it down 6cm
+  for(int x = 0; x < 300; x++){
+    digitalWrite(stepPin2, HIGH);
+    delayMicroseconds(1000);  // Longer delay for slower speed
+    digitalWrite(stepPin2, LOW);
+    delayMicroseconds(1000);
+  }
+
+  //This for loop moves it left 4cm
+  for(int x = 0; x < 300; x++){
+    digitalWrite(stepPin1, HIGH);
+    delayMicroseconds(1000);  // Longer delay for slower speed
+    digitalWrite(stepPin1, LOW);
+    delayMicroseconds(1000);
+  }
+delay(1000);
+  
+}
+
+void hometo_21(){
+  // 1 step = 0.18mm == 0.018cm
+  digitalWrite(dirPin1, LOW);  // Adjust direction if needed
+  digitalWrite(dirPin2, HIGH); 
+  //function needs to move right 4cm, up 6cm
+
+  //This for loop moves it right 4.55cm
+  for(int x = 0; x < 300; x++){
+    digitalWrite(stepPin1, HIGH);
+    delayMicroseconds(1000);  // Longer delay for slower speed
+    digitalWrite(stepPin1, LOW);
+    delayMicroseconds(1000);
+  }
+
+  //This for loop moves it up 5.68cm
+  for(int x = 0; x < 400; x++){
+    digitalWrite(stepPin2, HIGH);
+    delayMicroseconds(1000);  // Longer delay for slower speed
+    digitalWrite(stepPin2, LOW);
+    delayMicroseconds(1000);
+  }
+
+  if(!grab){
+    clawopen();
+    grab = true;
+  }
+  else if(grab == true){
+    clawclose();
+    grab = false;
+  }
+
+  //Now we go back to home
+
+  delay(2000);
+  digitalWrite(dirPin1, HIGH);  
+  digitalWrite(dirPin2, LOW); 
+
+  //This for loop moves it down 6cm
+  for(int x = 0; x < 400; x++){
+    digitalWrite(stepPin2, HIGH);
+    delayMicroseconds(1000);  // Longer delay for slower speed
+    digitalWrite(stepPin2, LOW);
+    delayMicroseconds(1000);
+  }
+
+  //This for loop moves it left 4cm
+  for(int x = 0; x < 300; x++){
+    digitalWrite(stepPin1, HIGH);
+    delayMicroseconds(1000);  // Longer delay for slower speed
+    digitalWrite(stepPin1, LOW);
+    delayMicroseconds(1000);
+  }
+delay(1000);
+  
+}
+
+void hometo_22(){
+  // 1 step = 0.18mm == 0.018cm
+  digitalWrite(dirPin1, LOW);  // Adjust direction if needed
+  digitalWrite(dirPin2, HIGH); 
+  //function needs to move right 4cm, up 6cm
+
+  //This for loop moves it right 4.55cm
+  for(int x = 0; x < 300; x++){
+    digitalWrite(stepPin1, HIGH);
+    delayMicroseconds(1000);  // Longer delay for slower speed
+    digitalWrite(stepPin1, LOW);
+    delayMicroseconds(1000);
+  }
+
+  //This for loop moves it up 5.68cm
+  for(int x = 0; x < 500; x++){
+    digitalWrite(stepPin2, HIGH);
+    delayMicroseconds(1000);  // Longer delay for slower speed
+    digitalWrite(stepPin2, LOW);
+    delayMicroseconds(1000);
+  }
+
+  if(!grab){
+    clawopen();
+    grab = true;
+  }
+  else if(grab == true){
+    clawclose();
+    grab = false;
+  }
+
+  //Now we go back to home
+
+  delay(2000);
+  digitalWrite(dirPin1, HIGH);  
+  digitalWrite(dirPin2, LOW); 
+
+  //This for loop moves it down 6cm
+  for(int x = 0; x < 500; x++){
+    digitalWrite(stepPin2, HIGH);
+    delayMicroseconds(1000);  // Longer delay for slower speed
+    digitalWrite(stepPin2, LOW);
+    delayMicroseconds(1000);
+  }
+
+  //This for loop moves it left 4cm
+  for(int x = 0; x < 300; x++){
+    digitalWrite(stepPin1, HIGH);
+    delayMicroseconds(1000);  // Longer delay for slower speed
+    digitalWrite(stepPin1, LOW);
+    delayMicroseconds(1000);
+  }
+
+  delay(1000);
+}
+
+void clawopen(){
+  myservo.write(100);
+  delay(1000);
+}
+
+
+void clawclose(){
+  myservo.write(35);
+  delay(1000);
+}
