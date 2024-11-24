@@ -300,6 +300,15 @@ int find_top_left(int matrix[3][3]) {
     return -1;
 }
 
+
+
+
+
+
+
+
+
+
 void move_top_left(int matrix[3][3]) {
     int column_with_top_left = find_top_left(matrix);
     int most_empty_column = find_most_empty_column(matrix);
@@ -485,6 +494,23 @@ void moveBlock(int row, int col) {
       break;
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ///////////////////// ALL OF THE MOVE FUNCTIONS /////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////
@@ -960,6 +986,8 @@ void hometo_22(){
 
   delay(1000);
 }
+
+
 
 void clawopen(){
   myservo.write(100);
