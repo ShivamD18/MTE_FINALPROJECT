@@ -582,7 +582,7 @@ int main(){
     placeholder_8 = find_secound_most_empty_column(blocks);
     moveBlock(2,placeholder_7);
     moveBlock(0, placeholder_8);
-
+    
     print_blocks(blocks);
     cout << "-------------------------\n";
     success = check_for_success(blocks);
