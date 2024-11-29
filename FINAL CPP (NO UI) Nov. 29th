@@ -9,6 +9,8 @@ int placeholder_3;
 int placeholder_4;
 int placeholder_5;
 int placeholder_6;
+int placeholder_7;
+int placeholder_8;
 
 //GENERAL FUNCTIONS
 
@@ -452,8 +454,8 @@ int main(){
     // PRINT ORIGINAL SETUP
     //--------------------------------------------------------------------
     int blocks[3][3] = {
-        {1, 0, 0},
-        {2, 0, 1},
+        {0, 0, 0},
+        {2, 1, 1},
         {1, 2, 2}
     };
 
@@ -571,8 +573,15 @@ int main(){
         moveBlock(2, placeholder_5); // pick up (GOOD)
         moveBlock(0, new_empty_col); // place (GOOD)
     }
+
+ blocks_above_dupe(blocks, new_empty_col, stacked_col, row_value);
+
     
-    blocks_above_dupe(blocks, new_empty_col, stacked_col, row_value);
+    //PART 6 (FIND LAST BLOCK)
+    placeholder_7 = find_most_empty_column(blocks);
+    placeholder_8 = find_secound_most_empty_column(blocks);
+    moveBlock(2,placeholder_7);
+    moveBlock(0, placeholder_8);
 
     print_blocks(blocks);
     cout << "-------------------------\n";
@@ -580,6 +589,7 @@ int main(){
     if(success != 0){
         return 0;
     }
+   
 
     return 0;
 }
